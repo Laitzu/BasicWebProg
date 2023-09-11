@@ -8,6 +8,7 @@
 
 <ul id="my-list"></ul>
 <li id="Element1">Kurkkusalaatti</li>
+<li id="Element2"></li>
 
 <button id="add-data" onclick="addElement()">Add</button>
 
@@ -18,12 +19,12 @@
 function addElement() {
     const list = document.getElementById("my-list");
     const li = document.getElementById("Element1");
-    const text = document.getElementById("Text1");
+    const li2 = document.getElementById("Element2");
+    const text = document.getElementById("Text1").value;
 
     list.appendChild(li)
 
-
-    const li2 = document.getElementById("Text1");
+    li2.textContent = text;
 
     list.appendChild(li2)
 
