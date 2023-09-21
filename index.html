@@ -14,6 +14,114 @@
 
 <textarea id="Text1" rows="4" cols="25">Tämä on testi. Testin tarkoituksena on harjoitella erilaisten HTML-tagien käyttöä.</textarea>
 
+<table id="userInfoTable">
+    <thead>
+        <td>Username</th>
+        <td>Email</th>
+        <td>Admin</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Admin_Antero</td>
+        <td>Antero@email.com</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>Kari_Käyttäjä</td>
+        <td>Kari@email.com</td>
+        <td>false</td>
+    </tr>
+    </tbody>
+</table>
+
+<input type="text" id="input-username" placeholder="Username">
+<input type="text" id="input-email" placeholder="E-mail">
+<input type="checkbox" id="checkbox">
+<input type="file" id="input-image" onchange="previewFile()">
+<img id="user-image" src="" height="64" alt="Image preview...">
+
+<br><button id="submit-data" onclick="addToTable()">Add to Table</button>
+
+<button id="empty-table" onclick="clearTable()">Clear table</button>
+
+
+
+
+
+
+
+<script>
+function previewFile() {
+    const preview = document.getElementById("user-image");
+    const file = document.getElementById("input-image").files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+  }
+
+}
+</script>
+
+
+<script>
+function clearTable() {
+
+    var Table = document.getElementById('userInfoTable');
+    Table.innerHTML = '';
+
+    const row = Table.insertRow(0)
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
+
+    header1 = "Username";
+    header2 = "Email";
+    header3 = "Admin";
+
+    cell1.innerHTML = header1;
+    cell2.innerHTML = header2;
+    cell3.innerHTML = header3;
+
+}
+</script>
+
+<script>
+function addToTable() {
+    const user = document.getElementById("input-username").value;
+    const email = document.getElementById("input-email").value;
+    const adminState = document.getElementById("checkbox").checked;
+    const table = document.getElementById("userInfoTable");
+
+    rows = table.rows;
+    for (let i = 0; i < rows.length; i++) {
+        if(rows[i].cells[0].innerText == user) {
+            alert("Username already exists in table, replacing with updated information.")
+            rows[i].cells[1].innerHTML = email;
+            rows[i].cells[2].innerHTML = adminState;
+            return
+        }
+    }  
+
+    const row = table.insertRow(1);
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
+    
+    
+    cell1.innerHTML = user;
+    cell2.innerHTML = email;
+    cell3.innerHTML = adminState;
+}
+</script>
+
+
 
 <script>
 function addElement() {
