@@ -92,7 +92,6 @@ async function getData() {
     let i = 0
 
     Object.values(municipalities).forEach((index) => {
-        let tr = document.createElement("tr");
         let td1 = document.createElement("td");
         let td2 = document.createElement("td");
         let td3 = document.createElement("td");
@@ -118,12 +117,17 @@ async function getData() {
             td4.setAttribute("class", "bad")
             }
 
+        tbody = document.getElementById("datatable").getElementsByTagName("tbody")[0];
+        let tr = tbody.insertRow()
+
         tr.appendChild(td1)
         tr.appendChild(td2)
         tr.appendChild(td3)
         tr.appendChild(td4)
 
-        table.appendChild(tr)
+
+
+        tbody.appendChild(tr)
         i = i + 1;
     })
 
