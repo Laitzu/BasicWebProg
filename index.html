@@ -104,18 +104,6 @@ async function getData() {
         const employmentPercentage = Math.round((td3.innerText/td2.innerText)*10000)/100
         td4.innerText = employmentPercentage + "%";
 
-        if (employmentPercentage > 0.01) {
-            td1.setAttribute("class", "good")
-            td2.setAttribute("class", "good")
-            td3.setAttribute("class", "good")
-            td4.setAttribute("class", "good")
-
-         } else if (employmentPercentage < 25) { 
-            td1.setAttribute("class", "bad")
-            td2.setAttribute("class", "bad")
-            td3.setAttribute("class", "bad")
-            td4.setAttribute("class", "bad")
-            }
 
         tbody = document.getElementById("datatable").getElementsByTagName("tbody")[0];
         let tr = tbody.insertRow()
@@ -124,13 +112,26 @@ async function getData() {
         tr.appendChild(td2)
         tr.appendChild(td3)
         tr.appendChild(td4)
-        
+
+
+        if (employmentPercentage > 45) {
+            td4.parentElement.classList.add("good")
+        } else if (employmentPercentage < 25) {
+            td4.parentElement.classList.add("bad")
+        } else if (i % 2 == 0) {
+            td4.parentElement.classList.add("even")
+        } else {
+            td4.parentElement.classList.add("odd")
+        }
+
+        console.log(td4.parentElement)
+
         tbody.appendChild(tr)
         i = i + 1;
     })
-
 }
 </script>
+
 
 
 <script>
