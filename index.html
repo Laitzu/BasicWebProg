@@ -1,6 +1,7 @@
 
 <html>
-<body>
+<link rel="stylesheet" href="styles.css">
+<body onload="getData()">
 
 <h1 id="Header1">Hello World</h1>
 
@@ -16,9 +17,9 @@
 
 <table id="userInfoTable">
     <thead>
-        <td>Username</th>
-        <td>Email</th>
-        <td>Admin</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Admin</th>
     </thead>
     <tbody>
     <tr>
@@ -47,7 +48,86 @@
 
 
 
+<div class="center">
+    <h1>Employment statistics per municipality in Finland</h1>
+    <table id="datatable">
+        <thead>
+            <th>Municipality</th>
+            <th>Population</th>
+            <th>Employment amount</th>
+            <th>Employment-%</th>
+        </thead>
+    
+        <tbody>
+    
+        </tbody>
+    </table>
+</div>
 
+
+
+
+
+
+
+<script>
+async function getData() {
+
+    const table = document.getElementById("datatable");
+
+    const url = "https://statfin.stat.fi/PxWeb/sq/4e244893-7761-4c4f-8e55-7a8d41d86eff";
+    const data = await fetch(url);
+    const dataJSON = await data.json();
+
+    const municipalities = dataJSON.dataset.dimension.Alue.category.label;
+    const values = dataJSON.dataset.value;
+
+    const url2 = "https://statfin.stat.fi/PxWeb/sq/5e288b40-f8c8-4f1e-b3b0-61b86ce5c065"
+    const data2 = await fetch(url2);
+    const data2JSON = await data2.json();
+
+    const values2 = data2JSON.dataset.value;
+
+    let i = 0
+
+    Object.values(municipalities).forEach((index) => {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let td4 = document.createElement("td");
+
+        td1.innerText = index;
+        td2.innerText = Object.values(values)[i];
+        td3.innerText = Object.values(values2)[i];
+
+        const employmentPercentage = Math.round((td3.innerText/td2.innerText)*10000)/100
+        td4.innerText = employmentPercentage + "%";
+
+        if (employmentPercentage > 45) {
+            td1.setAttribute("class", "good")
+            td2.setAttribute("class", "good")
+            td3.setAttribute("class", "good")
+            td4.setAttribute("class", "good")
+
+         } else if (employmentPercentage < 25) { 
+            td1.setAttribute("class", "bad")
+            td2.setAttribute("class", "bad")
+            td3.setAttribute("class", "bad")
+            td4.setAttribute("class", "bad")
+            }
+
+        tr.appendChild(td1)
+        tr.appendChild(td2)
+        tr.appendChild(td3)
+        tr.appendChild(td4)
+
+        table.appendChild(tr)
+        i = i + 1;
+    })
+
+}
+</script>
 
 
 <script>
