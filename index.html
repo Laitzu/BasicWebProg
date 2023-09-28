@@ -1,9 +1,24 @@
 
 <html>
-<link rel="stylesheet" href="styles.css">
-<body onload="getData()">
 
-<!-- 
+<link rel="stylesheet" href="styles.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body id="body">
+
+<!-- This belongs inside the body element to make the employment table work: onload="getData()"  -->
+
+<!--
+
+
 <h1 id="Header1">Hello World</h1>
 
 <button id="my-button" onclick="changeText()">Test</button>
@@ -47,7 +62,7 @@
 <button id="empty-table" onclick="clearTable()">Clear table</button>
 
 
--->   
+ 
 
 <div class="center">
     <h1 class="center">Employment statistics per municipality in Finland</h1>
@@ -65,11 +80,124 @@
     </table>
 </div>
 
+-->
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown link
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li>
+            <form>
+                <input type="text" id="input-show">
+                <button id="submit-data" onclick="getShowName()">Search</button>
+                <div class="show-container"></div>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
 
 
 
+<script>
+function getShowName() {
+    event.preventDefault()
+    name = document.getElementById("input-show").value;
 
+    fetchShows(name)
+}
+</script>
+
+
+<script>
+async function fetchShows(name) {
+
+    let showElements = document.getElementsByClassName("showElement");
+
+    while(showElements[0]) {
+        showElements[0].parentNode.removeChild(showElements[0]);
+    }
+
+    url = "https://api.tvmaze.com/search/shows?q=" + name;
+    data = await fetch(url)
+
+    dataJSON =  await data.json();
+
+    for (let i = 0; i < dataJSON.length; i++) {
+        createShowDataElement(dataJSON, i)
+    }
+}
+</script>
+
+<script>
+function createShowDataElement(dataJSON, i) {
+    const div1 = document.createElement("div");
+    const div2 = document.createElement("div");
+    const img = document.createElement("img");
+    const h1 = document.createElement("h1");
+    const p = document.createElement("p");
+
+    div1.classList.add("showElement")
+    div1.classList.add("show-data")
+    div2.classList.add("show-info")
+    img.classList.add("image")
+    h1.classList.add("h1")
+    p.classList.add("p")
+
+
+
+
+    div1.appendChild(img)
+    div1.appendChild(div2)
+
+    div2.appendChild(h1)
+    div2.appendChild(p)
+
+    let showName = dataJSON[i].show.name;
+    let showSummary = dataJSON[i].show.summary;
+    let showImg = "https://hds.hel.fi/images/foundation/visual-assets/placeholders/image-s@3x.png"
+    if (dataJSON[i].show.image != null) {
+        showImg = dataJSON[i].show.image.medium;
+    }
+    showSummary = showSummary.replace( /(<([^>]+)>)/ig, '');
+
+    h1.innerText = showName;
+    p.innerText = showSummary;
+    img.src = showImg;
+
+    document.getElementsByClassName("show-container")[0].appendChild(div1);
+
+}
+</script>
+
+
+
+<!--
 
 <script>
 async function getData() {
@@ -123,8 +251,6 @@ async function getData() {
         } else {
             td4.parentElement.classList.add("even")
         }
-
-        console.log(td4.parentElement)
 
         tbody.appendChild(tr)
         i = i + 1;
@@ -231,6 +357,8 @@ function changeText() {
     document.getElementById("Header1").innerHTML = "Moi maailma";
 }
 </script>
+
+-->
 
 </body>
 </html>
