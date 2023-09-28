@@ -74,6 +74,13 @@ table {
 
 @media only screen and (min-width: 800px) {
     .show-data {
+        width: 100%;
+        background-color: #cfd8dc;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 5px 10px;
         display: flex;
     }
     .show-info {
